@@ -28,15 +28,25 @@ function App() {
       <Spacing height={32} />
       <div className="flex flex-col items-center">
         <div className="flex gap-10 justify-center">
-          <button onClick={handleClickAdd}>ADD</button>
-          <button onClick={handleClickReset}>RESET</button>
+          <button className="text-xl font-bold" onClick={handleClickAdd}>
+            추가하기
+          </button>
+          <button className="text-xl font-bold" onClick={handleClickReset}>
+            초기화하기
+          </button>
         </div>
 
         <Spacing height={32} />
 
         <ul>
           {todos.map(({ key, content }) => (
-            <div key={key}>{content}</div>
+            <li className="font-bold flex gap-4" key={key}>
+              <p>{content}</p>
+              <div className="flex gap-2">
+                <button>수정하기</button>
+                <button>저장하기</button>
+              </div>
+            </li>
           ))}
         </ul>
       </div>
