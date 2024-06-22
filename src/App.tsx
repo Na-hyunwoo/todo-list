@@ -1,7 +1,13 @@
+import ModalContainer from "./containers/ModalContainer";
 import TodoList from "./pages/TodoList";
 
 function App() {
-  return <TodoList />;
+  return (
+    <>
+      <TodoList />
+      <ModalContainer />
+    </>
+  );
 }
 
 export default App;
