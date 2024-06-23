@@ -1,10 +1,10 @@
 import ModalContainer from "./containers/ModalContainer";
-import TodoList from "./pages/TodoList";
+import Home from "./pages/home";
 
 function App() {
   return (
     <>
-      <TodoList />
+      <Home />
       <ModalContainer />
     </>
   );
