@@ -1,11 +1,6 @@
+import { Todo } from "@/utils/type";
 import { v4 as uuidv4 } from "uuid";
 import { create } from "zustand";
-
-type Todo = {
-  id: string;
-  content: string;
-  checked: boolean;
-};
 
 type PartialTodo = Partial<Omit<Todo, "id">> & { id: string };
 
@@ -42,7 +37,11 @@ const useTodo = create<UseTodo>((set) => ({
               checked: checked ?? _checked,
             };
           } else {
-            return { id: _id, content: _content, checked: _checked };
+            return {
+              id: _id,
+              content: _content,
+              checked: _checked,
+            };
           }
         },
       ),
