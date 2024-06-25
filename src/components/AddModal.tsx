@@ -1,10 +1,11 @@
 import useModal from "@/hooks/useModal";
 import useTodo from "@/hooks/useTodo";
 import { MODAL_KEY } from "@/utils/const";
-import { ChangeEvent, useEffect, useRef, useState } from "react";
+import { ChangeEvent, useRef, useState } from "react";
 import Modal from "./Modal";
+import useShortcutKey from "@/hooks/useShortcutKey";
 
-function AddTodoModal() {
+function AddModal() {
   const inputRef = useRef<HTMLInputElement>(null);
   const [onClose] = useModal((state) => [state.onClose]);
   const [add] = useTodo((state) => [state.add]);
@@ -19,41 +20,25 @@ function AddTodoModal() {
 
     onClose(MODAL_KEY.ADD_TODO);
   };
+
   const handleClickClose = () => {
-    onClose(MODAL_KEY.ADD_TODO);
+    window.confirm("작성중인 할 일 목록이 있습니다. 정말로 닫으시겠습니까 ?")
+      ? onClose(MODAL_KEY.ADD_TODO)
+      : null;
   };
 
-  useEffect(() => {
-    const handleKeyDown = (e: KeyboardEvent) => {
-      if (e.key === "/") {
-        e.preventDefault();
-        inputRef.current?.focus();
-      }
-
-      if (e.key === "Enter") {
-        e.preventDefault();
-        handleClickAdd();
-      }
-
-      // TODO: input의 입력값 있으면 confirm 추가하기
-      if (e.key === "Escape") {
-        e.preventDefault();
-        onClose(MODAL_KEY.ADD_TODO);
-      }
-    };
-
-    window.addEventListener("keydown", handleKeyDown);
-
-    return () => {
-      window.removeEventListener("keydown", handleKeyDown);
-    };
-  }, [value]);
+  useShortcutKey({
+    deps: [value],
+    slashCallback: inputRef.current?.focus,
+    enterCallback: handleClickAdd,
+    escapeCallback: handleClickClose,
+  });
 
   return (
     <Modal
       value={value}
       onChangeInput={handleChangeInput}
-      onClickAdd={handleClickAdd}
+      onClickConfirm={handleClickAdd}
       onClickClose={handleClickClose}
       placeholder="할 일을 적어주세요."
       confirmButtonLabel="추가"
@@ -62,4 +47,4 @@ function AddTodoModal() {
   );
 }
 
-export default AddTodoModal;
+export default AddModal;

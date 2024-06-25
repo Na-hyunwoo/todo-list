@@ -3,7 +3,7 @@ import { ChangeEvent, forwardRef } from "react";
 type InputProps = {
   value: string;
   onChangeInput: (e: ChangeEvent<HTMLInputElement>) => void;
-  onClickAdd: () => void;
+  onClickConfirm: () => void;
   onClickClose: () => void;
   placeholder: string;
   confirmButtonLabel: string;
@@ -15,7 +15,7 @@ const Modal = forwardRef<HTMLInputElement, InputProps>(
     {
       value,
       onChangeInput,
-      onClickAdd,
+      onClickConfirm,
       onClickClose,
       placeholder,
       confirmButtonLabel,
@@ -34,7 +34,7 @@ const Modal = forwardRef<HTMLInputElement, InputProps>(
           onChange={onChangeInput}
         />
         <div className="flex justify-center gap-4">
-          <button onClick={onClickAdd}>{confirmButtonLabel}</button>
+          <button onClick={onClickConfirm}>{confirmButtonLabel}</button>
           <button onClick={onClickClose}>{cancelButtonLabel}</button>
         </div>
       </div>

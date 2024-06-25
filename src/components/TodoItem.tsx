@@ -1,20 +1,23 @@
+import useModal from "@/hooks/useModal";
 import useTodo from "@/hooks/useTodo";
+import { MODAL_KEY } from "@/utils/const";
 import { Todo } from "@/utils/type";
 import { ChangeEvent } from "react";
 
 function TodoItem({ id, content, checked }: Todo) {
+  const [onOpen] = useModal((state) => [state.onOpen]);
   const [modify] = useTodo((state) => [state.modify]);
 
   const handleChangeInput = (e: ChangeEvent<HTMLInputElement>, id: string) => {
     modify({ id, checked: e.target.checked });
   };
 
-  const handleClickText = (id: string) => {
-    modify({ id });
+  const handleClickModify = () => {
+    modify({ id, isModifying: true });
+    onOpen(MODAL_KEY.MODIFY_TODO);
   };
 
   /**
-   * 1. 수정하기는 수정하기와 같은 모달로 처리하는게 좋을 것 같다.
    * 2. 삭제하기는 x 버튼으로 대체 ?
    */
   return (
@@ -26,15 +29,10 @@ function TodoItem({ id, content, checked }: Todo) {
         onChange={(e) => handleChangeInput(e, id)}
       />
 
-      <p
-        className={`pl-2 pr-4 ${checked && "line-through"}`}
-        onClick={() => handleClickText(id)}
-      >
-        {content}
-      </p>
+      <p className={`pl-2 pr-4 ${checked && "line-through"}`}>{content}</p>
 
       <div className="flex gap-2">
-        <button>수정</button>
+        <button onClick={handleClickModify}>수정</button>
         <button>삭제</button>
       </div>
     </li>

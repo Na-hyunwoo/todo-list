@@ -1,10 +1,11 @@
 import useModal from "@/hooks/useModal";
 import Spacing from "@/components/Spacing";
 import { MODAL_KEY } from "@/utils/const";
-import AddTodoModal from "@/components/AddTodoModal";
+import AddModal from "@/components/AddModal";
 import CreateModal from "@/components/CreateModal";
 import useTodo from "@/hooks/useTodo";
 import TodoList from "@/containers/TodoList";
+import ModifyModal from "@/components/ModifyModal";
 
 function Home() {
   const [onOpen] = useModal((state) => [state.onOpen]);
@@ -36,7 +37,10 @@ function Home() {
         </div>
       </div>
       <CreateModal id={MODAL_KEY.ADD_TODO}>
-        <AddTodoModal />
+        <AddModal />
+      </CreateModal>
+      <CreateModal id={MODAL_KEY.MODIFY_TODO}>
+        <ModifyModal />
       </CreateModal>
     </>
   );

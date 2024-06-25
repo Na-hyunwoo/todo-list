@@ -16,7 +16,10 @@ const useTodo = create<UseTodo>((set) => ({
   todos: [],
   add: (content) =>
     set((state) => ({
-      todos: [...state.todos, { id: uuidv4(), content, checked: false }],
+      todos: [
+        ...state.todos,
+        { id: uuidv4(), content, checked: false, isModifying: false },
+      ],
     })),
   delete: (id) =>
     set((state) => ({
@@ -26,21 +29,28 @@ const useTodo = create<UseTodo>((set) => ({
     set(() => ({
       todos: [],
     })),
-  modify: ({ id, content, checked }) =>
+  modify: ({ id, content, checked, isModifying }) =>
     set((state) => ({
       todos: [...state.todos].map(
-        ({ id: _id, content: _content, checked: _checked }) => {
+        ({
+          id: _id,
+          content: _content,
+          checked: _checked,
+          isModifying: _isModifying,
+        }) => {
           if (id === _id) {
             return {
               id,
               content: content ?? _content,
               checked: checked ?? _checked,
+              isModifying: isModifying ?? _isModifying,
             };
           } else {
             return {
               id: _id,
               content: _content,
               checked: _checked,
+              isModifying: _isModifying,
             };
           }
         },
