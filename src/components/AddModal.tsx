@@ -22,9 +22,13 @@ function AddModal() {
   };
 
   const handleClickClose = () => {
-    window.confirm("작성중인 할 일 목록이 있습니다. 정말로 닫으시겠습니까 ?")
-      ? onClose(MODAL_KEY.ADD_TODO)
-      : null;
+    if (value.length > 0) {
+      window.confirm("작성중인 할 일 목록이 있습니다. 정말로 닫으시겠습니까 ?")
+        ? onClose(MODAL_KEY.ADD_TODO)
+        : null;
+    } else {
+      onClose(MODAL_KEY.ADD_TODO);
+    }
   };
 
   useShortcutKey({
