@@ -1,10 +1,17 @@
 import useModal from "@/hooks/useModal";
 import useTodo from "@/hooks/useTodo";
 import { MODAL_KEY } from "@/utils/const";
-import { Todo } from "@/utils/type";
-import { ChangeEvent } from "react";
+import { ChangeEvent, useState } from "react";
 
-function TodoItem({ id, content, checked }: Todo) {
+type TodoItemProps = {
+  id: string;
+  content: string;
+  checked: boolean;
+};
+
+function TodoItem({ id, content, checked }: TodoItemProps) {
+  const [hover, setHover] = useState<boolean>(false);
+
   const [onOpen] = useModal((state) => [state.onOpen]);
   const [modify] = useTodo((state) => [state.modify]);
 
@@ -17,24 +24,42 @@ function TodoItem({ id, content, checked }: Todo) {
     onOpen(MODAL_KEY.MODIFY_TODO);
   };
 
-  /**
-   * 2. 삭제하기는 x 버튼으로 대체 ?
-   */
+  const handleMouseOver = () => {
+    setHover(true);
+  };
+
+  const handleMouseOut = () => {
+    setHover(false);
+  };
+
   return (
-    <li className="flex font-bold" key={id}>
+    <li
+      className="relative flex font-bold"
+      key={id}
+      onMouseOver={handleMouseOver}
+      onMouseOut={handleMouseOut}
+    >
       <input
         type="checkbox"
         checked={checked}
         className="w-5 cursor-pointer"
         onChange={(e) => handleChangeInput(e, id)}
+        id="todo"
       />
 
-      <p className={`pl-2 pr-4 ${checked && "line-through"}`}>{content}</p>
+      <label
+        htmlFor="todo"
+        className={`pl-2 pr-4 ${checked && "line-through"}`}
+      >
+        {content}
+      </label>
 
-      <div className="flex gap-2">
-        <button onClick={handleClickModify}>수정</button>
-        <button>삭제</button>
-      </div>
+      {hover && (
+        <div className="absolute right-[-60px] flex gap-2">
+          <button onClick={handleClickModify}>수정</button>
+          <button>삭제</button>
+        </div>
+      )}
     </li>
   );
 }
