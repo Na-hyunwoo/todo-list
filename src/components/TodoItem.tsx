@@ -14,6 +14,7 @@ function TodoItem({ id, content, checked }: TodoItemProps) {
 
   const [onOpen] = useModal((state) => [state.onOpen]);
   const [modify] = useTodo((state) => [state.modify]);
+  const [remove] = useTodo((state) => [state.remove]);
 
   const handleChangeInput = (e: ChangeEvent<HTMLInputElement>, id: string) => {
     modify({ id, checked: e.target.checked });
@@ -22,6 +23,10 @@ function TodoItem({ id, content, checked }: TodoItemProps) {
   const handleClickModify = () => {
     modify({ id, isModifying: true });
     onOpen(MODAL_KEY.MODIFY_TODO);
+  };
+
+  const handleClickDelete = () => {
+    remove(id);
   };
 
   const handleMouseOver = () => {
@@ -57,7 +62,7 @@ function TodoItem({ id, content, checked }: TodoItemProps) {
       {hover && (
         <div className="absolute right-[-60px] flex gap-2">
           <button onClick={handleClickModify}>수정</button>
-          <button>삭제</button>
+          <button onClick={handleClickDelete}>삭제</button>
         </div>
       )}
     </li>

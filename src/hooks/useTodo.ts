@@ -7,7 +7,7 @@ type PartialTodo = Partial<Omit<Todo, "id">> & { id: string };
 type UseTodo = {
   todos: Todo[];
   add: (content: string) => void;
-  delete: (id: string) => void;
+  remove: (id: string) => void;
   reset: () => void;
   modify: (todo: PartialTodo) => void;
 };
@@ -21,7 +21,7 @@ const useTodo = create<UseTodo>((set) => ({
         { id: uuidv4(), content, checked: false, isModifying: false },
       ],
     })),
-  delete: (id) =>
+  remove: (id) =>
     set((state) => ({
       todos: [...state.todos].filter(({ id: _id }) => id !== _id),
     })),
